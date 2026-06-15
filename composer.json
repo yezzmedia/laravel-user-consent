@@ -1,0 +1,62 @@
+{
+    "name": "yezzmedia/laravel-user-consent",
+    "version": "0.1.0",
+    "description": "Customer-facing consent decisions and consent-aware gating for the Yezz Media Laravel website platform.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yezz Media",
+            "email": "info@yezzmedia.com"
+        }
+    ],
+    "require": {
+        "php": "^8.5",
+        "illuminate/contracts": "^13.0",
+        "illuminate/support": "^13.0",
+        "spatie/laravel-package-tools": "^1.93",
+        "yezzmedia/laravel-foundation": "^0.1"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.29",
+        "mockery/mockery": "^1.6",
+        "orchestra/testbench": "^11.0",
+        "pestphp/pest": "^4.0",
+        "pestphp/pest-plugin-laravel": "^4.0"
+    },
+    "suggest": {
+        "yezzmedia/laravel-account": "Provides account navigation integration for the consent preferences page.",
+        "yezzmedia/laravel-dashboard": "Provides hub navigation integration for consent settings."
+    },
+    "autoload": {
+        "psr-4": {
+            "YezzMedia\\Consent\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=1G",
+        "format": "vendor/bin/pint --format agent"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "YezzMedia\\Consent\\ConsentServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
