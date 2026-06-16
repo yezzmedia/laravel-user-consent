@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 return [
     'banner_text' => 'Diese Website verwendet Cookies und ähnliche Technologien, um Ihr Erlebnis zu verbessern, die Nutzung zu analysieren und Inhalte zu personalisieren. Bitte wählen Sie Ihre Einstellungen.',
-    'accept_all' => 'Alle Akzeptieren',
+    'accept_all' => 'Akzeptieren',
     'reject_all' => 'Alle Ablehnen',
     'settings' => 'Cookie-Einstellungen',
     'save_settings' => 'Einstellungen Speichern',
@@ -17,6 +17,7 @@ return [
     'denied' => 'Abgelehnt',
     'preferences_title' => 'Cookie-Einstellungen',
     'preferences_description' => 'Verwalten Sie Ihre Consent-Präferenzen für die Datenverarbeitung auf dieser Website.',
+    'preferences_hero_text' => 'Wählen Sie aus, welche Cookie-Kategorien Sie zulassen. Notwendige Cookies sind immer aktiv — die Website kann ohne sie nicht funktionieren. Ihre Einstellungen können Sie jederzeit ändern.',
     'preferences_saved' => 'Ihre Einstellungen wurden gespeichert.',
     'reset_all' => 'Alle Zurücksetzen',
     'reset_confirm' => 'Sind Sie sicher? Alle Consent-Einstellungen werden zurückgesetzt und der Banner erscheint erneut.',

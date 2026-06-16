@@ -81,7 +81,7 @@ final class ConsentController extends Controller
         }
 
         $title = __('user-consent::messages.preferences_title');
-        $description = __('user-consent::messages.preferences_description');
+        $description = __('user-consent::messages.preferences_hero_text');
 
         if (class_exists(AccountPage::class)) {
             try {
