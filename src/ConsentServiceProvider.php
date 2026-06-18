@@ -8,9 +8,12 @@ use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
 use Illuminate\Routing\Router;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use YezzMedia\Account\Support\AccountExtensionRegistry;
 use YezzMedia\Consent\Http\Middleware\ConsentBannerMiddleware;
 use YezzMedia\Consent\Resolvers\ConsentVersionResolver;
 use YezzMedia\Consent\Support\ConsentManager;
+use YezzMedia\Dashboard\Navigation\BottomBarLink;
+use YezzMedia\Dashboard\Navigation\BottomBarLinkRegistry;
 use YezzMedia\Foundation\Support\PlatformPackageRegistrar;
 
 class ConsentServiceProvider extends PackageServiceProvider
@@ -48,7 +51,8 @@ class ConsentServiceProvider extends PackageServiceProvider
         }
 
         $this->registerMiddleware();
-        $this->registerNavigation();
+        $this->registerBottomBarLink();
+        $this->registerSidebarLink();
         $this->registerFoundation();
     }
 
@@ -88,46 +92,26 @@ class ConsentServiceProvider extends PackageServiceProvider
         }
     }
 
-    private function registerNavigation(): void
-    {
-        $this->app->booted(function (): void {
-            $this->registerSidebarLink();
-            $this->registerBottomBarLink();
-        });
-    }
-
     private function registerSidebarLink(): void
     {
-        try {
-            config([
-                'account.navigation.extras' => [
-                    'Account' => [
-                        [
-                            'label' => __('user-consent::messages.settings'),
-                            'icon' => 'shield',
-                            'url' => url('/consent/preferences'),
-                            'sort' => 60,
-                        ],
-                    ],
-                ],
-            ]);
-        } catch (\Throwable) {
-            // account sidebar integration is optional
-        }
+        $this->app->make(AccountExtensionRegistry::class)->addExternalLink(
+            group: 'Account',
+            label: __('user-consent::messages.settings'),
+            url: url('/consent/preferences'),
+            icon: 'shield',
+            sort: 60,
+        );
     }
 
     private function registerBottomBarLink(): void
     {
-        try {
-            $links = (array) config('dashboard.legal.left', []);
-            $links[] = [
-                'label' => __('user-consent::messages.settings'),
-                'url' => url('/consent/preferences'),
-            ];
-            config(['dashboard.legal.left' => $links]);
-        } catch (\Throwable) {
-            // bottom bar integration is optional
-        }
+        $registry = $this->app->make(BottomBarLinkRegistry::class);
+        $registry->add(new BottomBarLink(
+            label: __('user-consent::messages.settings'),
+            url: url('/consent/preferences'),
+            section: 'left',
+            sort: 20,
+        ));
     }
 
     private function registerFoundation(): void
