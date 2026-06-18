@@ -13,15 +13,17 @@ use YezzMedia\Foundation\Contracts\DefinesInstallSteps;
 use YezzMedia\Foundation\Contracts\DefinesPermissions;
 use YezzMedia\Foundation\Contracts\PlatformPackage;
 use YezzMedia\Foundation\Contracts\ProvidesDoctorChecks;
+use YezzMedia\Foundation\Contracts\ProvidesOpsModules;
 use YezzMedia\Foundation\Contracts\RegistersFeatures;
 use YezzMedia\Foundation\Data\AuditEventDefinition;
 use YezzMedia\Foundation\Data\FeatureDefinition;
+use YezzMedia\Foundation\Data\OpsModuleDefinition;
 use YezzMedia\Foundation\Data\PackageMetadata;
 use YezzMedia\Foundation\Data\PermissionDefinition;
 use YezzMedia\Foundation\Doctor\DoctorCheck;
 use YezzMedia\Foundation\Install\InstallStep;
 
-final class ConsentPlatformPackage implements DefinesAuditEvents, DefinesInstallSteps, DefinesPermissions, PlatformPackage, ProvidesDoctorChecks, RegistersFeatures
+final class ConsentPlatformPackage implements DefinesAuditEvents, DefinesInstallSteps, DefinesPermissions, PlatformPackage, ProvidesDoctorChecks, ProvidesOpsModules, RegistersFeatures
 {
     public function metadata(): PackageMetadata
     {
@@ -58,6 +60,22 @@ final class ConsentPlatformPackage implements DefinesAuditEvents, DefinesInstall
             new FeatureDefinition('consent.decisions', 'yezzmedia/laravel-user-consent', 'Consent decisions', 'Provides persistent storage for user and guest consent decisions.'),
             new FeatureDefinition('consent.banner', 'yezzmedia/laravel-user-consent', 'Consent banner', 'Provides the automatic consent banner injected into HTML responses.'),
             new FeatureDefinition('consent.preferences', 'yezzmedia/laravel-user-consent', 'Consent preferences page', 'Provides the standalone cookie preferences page at /consent/preferences.'),
+        ];
+    }
+
+    /**
+     * @return array<int, OpsModuleDefinition>
+     */
+    public function opsModuleDefinitions(): array
+    {
+        return [
+            new OpsModuleDefinition(
+                key: 'consent.decisions',
+                package: 'yezzmedia/laravel-user-consent',
+                label: 'Consent Decisions',
+                type: 'page',
+                permissionHint: 'consent.manage',
+            ),
         ];
     }
 

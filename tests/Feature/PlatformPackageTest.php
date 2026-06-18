@@ -8,6 +8,7 @@ use YezzMedia\Foundation\Contracts\DefinesInstallSteps;
 use YezzMedia\Foundation\Contracts\DefinesPermissions;
 use YezzMedia\Foundation\Contracts\PlatformPackage;
 use YezzMedia\Foundation\Contracts\ProvidesDoctorChecks;
+use YezzMedia\Foundation\Contracts\ProvidesOpsModules;
 use YezzMedia\Foundation\Contracts\RegistersFeatures;
 use YezzMedia\Foundation\Registry\PackageRegistry;
 use YezzMedia\Foundation\Registry\PermissionRegistry;
@@ -20,7 +21,8 @@ it('implements all required foundation contracts', function (): void {
         ->and($package)->toBeInstanceOf(DefinesAuditEvents::class)
         ->and($package)->toBeInstanceOf(RegistersFeatures::class)
         ->and($package)->toBeInstanceOf(DefinesInstallSteps::class)
-        ->and($package)->toBeInstanceOf(ProvidesDoctorChecks::class);
+        ->and($package)->toBeInstanceOf(ProvidesDoctorChecks::class)
+        ->and($package)->toBeInstanceOf(ProvidesOpsModules::class);
 });
 
 it('returns correct metadata', function (): void {
@@ -79,4 +81,13 @@ it('defines features', function (): void {
     $features = $package->featureDefinitions();
 
     expect($features)->toHaveCount(4);
+});
+
+it('defines ops modules', function (): void {
+    $package = new ConsentPlatformPackage;
+    $modules = $package->opsModuleDefinitions();
+
+    expect($modules)->toHaveCount(1);
+    expect($modules[0]->key)->toBe('consent.decisions');
+    expect($modules[0]->permissionHint)->toBe('consent.manage');
 });
