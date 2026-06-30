@@ -9,6 +9,7 @@
             document.documentElement.classList.add('dark');
         }
     </script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans antialiased bg-gray-50 dark:bg-gray-950">
     <div class="min-h-screen py-12">
