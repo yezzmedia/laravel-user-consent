@@ -83,21 +83,17 @@ final class ConsentController extends Controller
         $title = __('user-consent::messages.preferences_title');
         $description = __('user-consent::messages.preferences_hero_text');
 
-        if (class_exists(AccountPage::class)) {
-            try {
-                $manager = app(AccountManager::class);
-                $user = $manager->currentUser();
+        if (class_exists(AccountPage::class) && $this->hasDefaultFilamentPanel()) {
+            $manager = app(AccountManager::class);
+            $user = $manager->currentUser();
 
-                return view('user-consent::pages.account-preferences', [
-                    'title' => $title,
-                    'description' => $description,
-                    'categories' => $categories,
-                    'profileSummary' => $manager->profileSummary($user),
-                    'navigation' => $manager->navigation(),
-                ]);
-            } catch (\Throwable) {
-                // Account package available but panel not fully registered
-            }
+            return view('user-consent::pages.account-preferences', [
+                'title' => $title,
+                'description' => $description,
+                'categories' => $categories,
+                'profileSummary' => $manager->profileSummary($user),
+                'navigation' => $manager->navigation(),
+            ]);
         }
 
         return view('user-consent::pages.preferences', [
@@ -127,6 +123,17 @@ final class ConsentController extends Controller
         $this->consent->saveDecisions($validated['decisions']);
 
         return redirect()->back()->with('success', __('user-consent::messages.preferences_saved'));
+    }
+
+    private function hasDefaultFilamentPanel(): bool
+    {
+        try {
+            filament()->getDefaultPanel();
+
+            return true;
+        } catch (\Throwable) {
+            return false;
+        }
     }
 
     private function resolveIdentity(Request $request): void
