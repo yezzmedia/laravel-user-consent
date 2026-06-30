@@ -41,7 +41,7 @@ final class ConsentDecisionDetailPage extends Page
                 ->label('Back to list')
                 ->icon('heroicon-o-arrow-left')
                 ->color('gray')
-                ->url(ConsentDecisionListPage::getUrl()),
+                ->url(ConsentDecisionListPage::getUrl(panel: 'ops')),
         ];
     }
 

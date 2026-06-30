@@ -35,7 +35,6 @@ final class CreateConsentTablesInstallStep implements InstallStep
     public function handle(InstallContext $context): void
     {
         Artisan::call('migrate', [
-            '--path' => __DIR__.'/../../database/migrations',
             '--force' => true,
         ]);
 

@@ -87,7 +87,7 @@ final class ConsentDecisionListPage extends Page implements HasTable
                 Action::make('view')
                     ->label('View')
                     ->icon('heroicon-o-eye')
-                    ->url(fn (ConsentDecision $record): string => ConsentDecisionDetailPage::getUrl(['decision' => $record->id])),
+                    ->url(fn (ConsentDecision $record): string => ConsentDecisionDetailPage::getUrl(['decision' => $record->id], panel: 'ops')),
             ])
             ->bulkActions([])
             ->emptyStateHeading('No consent decisions yet.')
