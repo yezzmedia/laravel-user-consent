@@ -38,7 +38,7 @@ it('defines consent.manage permission', function (): void {
     $package = new ConsentPlatformPackage;
     $permissions = $package->permissionDefinitions();
 
-    collect($permissions)->contains(fn ($p) => $p->name === 'consent.manage');
+    expect(collect($permissions)->contains(fn ($p) => $p->name === 'consent.manage'))->toBeTrue();
 });
 
 it('defines audit events', function (): void {
@@ -59,7 +59,7 @@ it('registers permission in foundation permission registry', function (): void {
     $registry = app(PermissionRegistry::class);
     $all = $registry->all();
 
-    collect($all)->contains(fn ($p) => $p->name === 'consent.manage');
+    expect(collect($all)->contains(fn ($p) => $p->name === 'consent.manage'))->toBeTrue();
 });
 
 it('defines install steps', function (): void {
