@@ -1,6 +1,6 @@
 {
     "name": "yezzmedia/laravel-user-consent",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "description": "Customer-facing consent decisions and consent-aware gating for the Yezz Media Laravel website platform.",
     "type": "library",
     "license": "MIT",
