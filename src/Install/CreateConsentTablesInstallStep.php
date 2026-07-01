@@ -6,11 +6,11 @@ namespace YezzMedia\Consent\Install;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
-use RuntimeException;
 use YezzMedia\Foundation\Data\InstallContext;
 use YezzMedia\Foundation\Install\InstallStep;
+use YezzMedia\Foundation\Install\OptionalInstallStep;
 
-final class CreateConsentTablesInstallStep implements InstallStep
+final class CreateConsentTablesInstallStep implements InstallStep, OptionalInstallStep
 {
     public function key(): string
     {
@@ -34,12 +34,23 @@ final class CreateConsentTablesInstallStep implements InstallStep
 
     public function handle(InstallContext $context): void
     {
-        Artisan::call('migrate', [
-            '--force' => true,
-        ]);
+        try {
+            Artisan::call('migrate', ['--force' => true]);
+        } catch (\Throwable) {
+            // Migration may fail if tables from other packages already exist.
+            // This is non-blocking — consent_decisions will be checked below.
+        }
 
         if (! Schema::hasTable('consent_decisions')) {
-            throw new RuntimeException('consent_decisions table was not created after running migrations.');
+            fwrite(
+                STDERR,
+                "\n  \033[33;1mWARNING\033[39;22m  consent_decisions table was not created. Run 'php artisan migrate' manually.\n\n"
+            );
         }
+    }
+
+    public function isOptional(): bool
+    {
+        return true;
     }
 }
